@@ -3,6 +3,7 @@ from scipy.spatial.transform import Rotation
 from math import sin as s, cos as c
 from numba import jit
 
+# git token access : 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
 
 class Frame:
     def __init__(self, t_4_4):
@@ -20,8 +21,8 @@ class Frame:
         return self.t_4_4.__str__()
 
     #  inverse of the frame
-    @jit(nopython=True)
     @property
+    #@jit(nopython=True)
     def inv(self):
         t_4_4_new = self.t_4_4.copy()
         t_4_4_new[0:3, 3:4] = -self.t_4_4[0:3, 0:3].T.dot(self.t_4_4[0:3, 3:4])
@@ -33,19 +34,19 @@ class Frame:
         return Frame(self.t_4_4)
 
     #  z axis vector of the frame
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @property
     def z_3_1(self):
         return self.t_4_4[0:3, 2:3]
 
     #  translation vector of the frame
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @property
     def t_3_1(self):
         return self.t_4_4[0:3, 3:4]
 
     #  rotation matrix of the frame
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @property
     def r_3_3(self):
         return self.t_4_4[0:3, 0:3]
@@ -56,7 +57,7 @@ class Frame:
         return Rotation.from_matrix(self.r_3_3).as_quat()
 
     #  rotation in angle-axis format
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @property
     def r_3(self):
         return Rotation.from_matrix(self.r_3_3).as_rotvec()
