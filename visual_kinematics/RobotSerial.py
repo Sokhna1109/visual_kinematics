@@ -1,6 +1,7 @@
 from visual_kinematics.Robot import *
 from visual_kinematics.utility import simplify_angles
 import logging
+from numba import jit
 
 
 class RobotSerial(Robot):
@@ -34,10 +35,12 @@ class RobotSerial(Robot):
         self.final_loss = final_loss
 
     @property
+    @jit(nopython=True)
     def dh_params(self):
         return np.hstack((self.params, (self.axis_values + self.initial_offset).reshape([self.num_axis, 1])))
 
     # transformation between axes
+    @jit(nopython=True)
     @property
     def ts(self):
         dh = self.dh_params
@@ -50,6 +53,7 @@ class RobotSerial(Robot):
         return ts
 
     # base to end transformation
+    @jit(nopython=True)
     @property
     def axis_frames(self):
         ts = self.ts
@@ -60,10 +64,12 @@ class RobotSerial(Robot):
             fs.append(f.copy)
         return fs
 
+    @jit(nopython=True)
     @property
     def end_frame(self):
         return self.axis_frames[-1]
 
+    @jit(nopython=True)
     @property
     def jacobian(self):
         axis_fs = self.axis_frames
@@ -80,17 +86,20 @@ class RobotSerial(Robot):
                 jac[3:6, i] = axis_fs[i].z_3_1.reshape([3, ])
         return jac
 
+    @jit(nopython=True)
     def inverse(self, end_frame):
         if self.analytical_inv is not None:
             return self.inverse_analytical(end_frame, self.analytical_inv)
         else:
             return self.inverse_numerical(end_frame)
 
+    @jit(nopython=True)
     def inverse_analytical(self, end_frame, method):
         self.is_reachable_inverse, theta_x = method(self.dh_params, end_frame)
         self.forward(theta_x)
         return theta_x
 
+    @jit(nopython=True)
     def inverse_numerical(self, end_frame):
         last_dx = np.zeros([6, 1])
         for _ in range(self.max_iter):

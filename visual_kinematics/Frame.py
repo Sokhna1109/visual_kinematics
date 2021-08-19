@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.spatial.transform import Rotation
 from math import sin as s, cos as c
+from numba import jit
 
 
 class Frame:
@@ -19,6 +20,7 @@ class Frame:
         return self.t_4_4.__str__()
 
     #  inverse of the frame
+    @jit(nopython=True)
     @property
     def inv(self):
         t_4_4_new = self.t_4_4.copy()
@@ -31,16 +33,19 @@ class Frame:
         return Frame(self.t_4_4)
 
     #  z axis vector of the frame
+    @jit(nopython=True)
     @property
     def z_3_1(self):
         return self.t_4_4[0:3, 2:3]
 
     #  translation vector of the frame
+    @jit(nopython=True)
     @property
     def t_3_1(self):
         return self.t_4_4[0:3, 3:4]
 
     #  rotation matrix of the frame
+    @jit(nopython=True)
     @property
     def r_3_3(self):
         return self.t_4_4[0:3, 0:3]
@@ -51,6 +56,7 @@ class Frame:
         return Rotation.from_matrix(self.r_3_3).as_quat()
 
     #  rotation in angle-axis format
+    @jit(nopython=True)
     @property
     def r_3(self):
         return Rotation.from_matrix(self.r_3_3).as_rotvec()
@@ -61,6 +67,7 @@ class Frame:
         return Rotation.from_matrix(self.r_3_3).as_euler("ZYX", degrees=False)
 
     #  construct a frame using rotation matrix and translation vector
+    @jit(nopython=True)
     @staticmethod
     def from_r_3_3(r_3_3, t_3_1):
         t_4_4 = np.eye(4)
@@ -75,18 +82,21 @@ class Frame:
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using angle-axis and translation vector
+    @jit(nopython=True)
     @staticmethod
     def from_r_3(r_3, t_3_1):
         r_3_3 = Rotation.from_rotvec(r_3).as_matrix()
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using ZYX euler angle and translation vector
+    @jit(nopython=True)
     @staticmethod
     def from_euler_3(euler_3, t_3_1):
         r_3_3 = Rotation.from_euler("ZYX", euler_3, degrees=False).as_matrix()
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using dh parameters
+    @jit(nopython=True)
     @staticmethod
     def from_dh(dh_params):
         d, a, alpha, theta = dh_params
@@ -98,6 +108,7 @@ class Frame:
     #  construct a frame using modified dh parameters
     #  for the difference between two DH parameter definitions
     #  https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters
+    @jit(nopython=True)
     @staticmethod
     def from_dh_modified(dh_params):
         d, a, alpha, theta = dh_params
