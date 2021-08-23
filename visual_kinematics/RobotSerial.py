@@ -70,7 +70,7 @@ class RobotSerial(Robot):
 
     
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def jacobian(self):
         axis_fs = self.axis_frames
         jac = np.zeros([6, self.num_axis])
