@@ -54,7 +54,6 @@ class RobotSerial(Robot):
 
     # base to end transformation
     @property
-    @jit(nopython=True)
     def axis_frames(self):
         ts = self.ts
         fs = []
@@ -66,7 +65,6 @@ class RobotSerial(Robot):
 
     
     @property
-    @jit(nopython=True)
     def end_frame(self):
         return self.axis_frames[-1]
 
