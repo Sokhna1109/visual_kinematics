@@ -22,7 +22,7 @@ class Frame:
 
     #  inverse of the frame
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def inv(self):
         t_4_4_new = self.t_4_4.copy()
         t_4_4_new[0:3, 3:4] = -self.t_4_4[0:3, 0:3].T.dot(self.t_4_4[0:3, 3:4])
