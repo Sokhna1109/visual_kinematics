@@ -47,7 +47,7 @@ class Frame:
 
     #  rotation matrix of the frame
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def r_3_3(self):
         return self.t_4_4[0:3, 0:3]
 
@@ -58,7 +58,7 @@ class Frame:
 
     #  rotation in angle-axis format
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def r_3(self):
         return Rotation.from_matrix(self.r_3_3).as_rotvec()
 
