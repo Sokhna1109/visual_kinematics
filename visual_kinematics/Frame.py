@@ -69,7 +69,6 @@ class Frame:
 
     #  construct a frame using rotation matrix and translation vector
     @staticmethod
-    @jit(nopython=True)
     def from_r_3_3(r_3_3, t_3_1):
         t_4_4 = np.eye(4)
         t_4_4[0:3, 0:3] = r_3_3
@@ -84,14 +83,12 @@ class Frame:
 
     #  construct a frame using angle-axis and translation vector
     @staticmethod
-    @jit(nopython=True)
     def from_r_3(r_3, t_3_1):
         r_3_3 = Rotation.from_rotvec(r_3).as_matrix()
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using ZYX euler angle and translation vector
     @staticmethod
-    @jit(nopython=True)
     def from_euler_3(euler_3, t_3_1):
         r_3_3 = Rotation.from_euler("ZYX", euler_3, degrees=False).as_matrix()
         return Frame.from_r_3_3(r_3_3, t_3_1)
