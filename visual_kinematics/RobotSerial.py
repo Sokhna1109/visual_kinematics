@@ -35,7 +35,7 @@ class RobotSerial(Robot):
         self.final_loss = final_loss
 
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def dh_params(self):
         return np.hstack((self.params, (self.axis_values + self.initial_offset).reshape([self.num_axis, 1])))
 
