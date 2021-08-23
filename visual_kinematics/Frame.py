@@ -68,7 +68,7 @@ class Frame:
         return Rotation.from_matrix(self.r_3_3).as_euler("ZYX", degrees=False)
 
     #  construct a frame using rotation matrix and translation vector
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @staticmethod
     def from_r_3_3(r_3_3, t_3_1):
         t_4_4 = np.eye(4)
@@ -83,21 +83,21 @@ class Frame:
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using angle-axis and translation vector
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @staticmethod
     def from_r_3(r_3, t_3_1):
         r_3_3 = Rotation.from_rotvec(r_3).as_matrix()
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using ZYX euler angle and translation vector
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @staticmethod
     def from_euler_3(euler_3, t_3_1):
         r_3_3 = Rotation.from_euler("ZYX", euler_3, degrees=False).as_matrix()
         return Frame.from_r_3_3(r_3_3, t_3_1)
 
     #  construct a frame using dh parameters
-    @jit(nopython=True)
+    #@jit(nopython=True)
     @staticmethod
     def from_dh(dh_params):
         d, a, alpha, theta = dh_params
@@ -109,8 +109,8 @@ class Frame:
     #  construct a frame using modified dh parameters
     #  for the difference between two DH parameter definitions
     #  https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters
-    @jit(nopython=True)
     @staticmethod
+    @jit(nopython=True)
     def from_dh_modified(dh_params):
         d, a, alpha, theta = dh_params
         return Frame(np.array([[c(theta), -s(theta), 0, a],
