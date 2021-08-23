@@ -40,8 +40,8 @@ class RobotSerial(Robot):
         return np.hstack((self.params, (self.axis_values + self.initial_offset).reshape([self.num_axis, 1])))
 
     # transformation between axes
-    @jit(nopython=True)
     @property
+    @jit(nopython=True)
     def ts(self):
         dh = self.dh_params
         ts = []
