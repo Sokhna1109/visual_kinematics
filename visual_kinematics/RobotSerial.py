@@ -41,7 +41,7 @@ class RobotSerial(Robot):
 
     # transformation between axes
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def ts(self):
         dh = self.dh_params
         ts = []
