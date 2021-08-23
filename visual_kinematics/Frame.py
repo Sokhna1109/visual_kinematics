@@ -95,7 +95,7 @@ class Frame:
 
     #  construct a frame using dh parameters
     @staticmethod
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def from_dh(dh_params):
         d, a, alpha, theta = dh_params
         return Frame(np.array([[c(theta), -s(theta) * c(alpha), s(theta) * s(alpha), a * c(theta)],
@@ -107,7 +107,7 @@ class Frame:
     #  for the difference between two DH parameter definitions
     #  https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters
     @staticmethod
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def from_dh_modified(dh_params):
         d, a, alpha, theta = dh_params
         return Frame(np.array([[c(theta), -s(theta), 0, a],
