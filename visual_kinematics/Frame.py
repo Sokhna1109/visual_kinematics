@@ -41,7 +41,7 @@ class Frame:
 
     #  translation vector of the frame
     @property
-    @jit(nopython=True)
+    #@jit(nopython=True)
     def t_3_1(self):
         return self.t_4_4[0:3, 3:4]
 
