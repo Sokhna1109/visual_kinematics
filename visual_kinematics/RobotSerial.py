@@ -53,8 +53,8 @@ class RobotSerial(Robot):
         return ts
 
     # base to end transformation
-    @jit(nopython=True)
     @property
+    @jit(nopython=True)
     def axis_frames(self):
         ts = self.ts
         fs = []
@@ -64,13 +64,15 @@ class RobotSerial(Robot):
             fs.append(f.copy)
         return fs
 
-    @jit(nopython=True)
+    
     @property
+    @jit(nopython=True)
     def end_frame(self):
         return self.axis_frames[-1]
 
-    @jit(nopython=True)
+    
     @property
+    @jit(nopython=True)
     def jacobian(self):
         axis_fs = self.axis_frames
         jac = np.zeros([6, self.num_axis])
