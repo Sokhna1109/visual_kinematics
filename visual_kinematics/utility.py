@@ -14,7 +14,7 @@ def simplify_angle(angle):
 
 
 # ================== constrain angles[n, ] between -pi and pi
-@jit(nopython=True)
+#@jit(nopython=True)
 def simplify_angles(angles):
     for i in range(angles.shape[0]):
         angles[i] = simplify_angle(angles[i])
